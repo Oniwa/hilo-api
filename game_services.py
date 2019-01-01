@@ -20,7 +20,7 @@ def get_game_history(game_id: str) -> List[Guess]:
     return guesses
 
 
-def get_player_high_score(player: Player) -> int:
+def get_player_high_score(player: Player.id) -> List:
     session = session_factory.create_session()
 
     high_scores = []
