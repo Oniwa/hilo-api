@@ -5,8 +5,6 @@ from models.guess import Guess
 from models.player import Player
 
 
-
-
 def get_game_history(game_id: str) -> List[Guess]:
     session = session_factory.create_session()
 
@@ -64,7 +62,8 @@ def all_players() -> List[Player]:
 
 
 def record_guess(player, guess_number: int, game_id: str,
-                 is_correct_guess: bool, is_hi: bool, guess_count: int):
+                 is_correct_guess: bool, is_hi: bool, guess_count: int,
+                 the_number: int):
     session = session_factory.create_session()
 
     guess = Guess()
@@ -74,6 +73,7 @@ def record_guess(player, guess_number: int, game_id: str,
     guess.is_correct_guess = is_correct_guess
     guess.is_hi = is_hi
     guess.guess_count = guess_count
+    guess.the_number = the_number
     session.add(guess)
 
     session.commit()

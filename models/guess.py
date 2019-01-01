@@ -15,5 +15,6 @@ class Guess(ModelBase):
     guess = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     guess_count = sqlalchemy.Column(sqlalchemy.Integer, index=True)
     player_id = sqlalchemy.Column(sqlalchemy.Integer, index=True)
-    is_hi = sqlalchemy.Column(sqlalchemy.Boolean, index=True)
+    is_hi = sqlalchemy.Column(sqlalchemy.Boolean, index=True, default=False)
     is_correct_guess = sqlalchemy.Column(sqlalchemy.Boolean, index=True, default=False)
+    the_number = sqlalchemy.Column(sqlalchemy.Integer, index=True)
