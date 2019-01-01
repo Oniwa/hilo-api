@@ -13,7 +13,7 @@ def global_init():
     global __factory
 
     full_file = db_folder.get_db_folder('hilo.sqlite')
-    conn_str = 'sqlite:///'
+    conn_str = 'sqlite:///' + full_file
 
     engine = sqlalchemy.create_engine(conn_str, echo=False)
     ModelBase.metadata.create_all(engine)
