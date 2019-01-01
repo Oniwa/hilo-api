@@ -12,6 +12,10 @@ guess = -1
 
 name = input('Player what is your name? ')
 player = gs.find_or_create_player(name)
+high_scores = gs.get_player_high_score(player.id)
+high_scores = ', '.join(str(x) for x in high_scores)
+print(f'{player.name}\'s best scores are {high_scores}')
+
 game_id = str(uuid.uuid4())
 
 count = 0
@@ -25,16 +29,15 @@ while guess != the_number:
         gs.record_guess(player=player, guess_number=guess, game_id=game_id,
                         is_correct_guess=False, is_hi=False, guess_count=count,
                         the_number=the_number)
-        print('Sorry {}, your guess of {} was too LOW.'.format(name, guess))
+        print(f'Sorry {name}, your guess of {guess} was too LOW.')
     elif guess > the_number:
         gs.record_guess(player=player, guess_number=guess, game_id=game_id,
                         is_correct_guess=False, is_hi=True, guess_count=count,
                         the_number=the_number)
-        print('Sorry {}, your guess of {} was too HIGH.'.format(name, guess))
+        print(f'Sorry {name}, your guess of {guess} was too HIGH.')
     else:
         gs.record_guess(player=player, guess_number=guess, game_id=game_id,
                         is_correct_guess=True, is_hi=False, guess_count=count,
-                        the_number = the_number)
-        print('Excellent work {}, you won, it was {}!'.format(name, guess))
-
-print('done')
+                        the_number=the_number)
+        print(f'Excellent work {name}, you won in {count} guesses,'
+              f' it was {guess}!')

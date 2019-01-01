@@ -23,17 +23,24 @@ def get_game_history(game_id: str) -> List[Guess]:
 def get_player_high_score(player: Player) -> int:
     session = session_factory.create_session()
 
-    query = session.filter(Guess)\
+    high_scores = []
+
+    query = session.query(Guess)\
         .filter(Guess.player_id == player)\
         .filter(Guess.is_correct_guess)\
         .order_by(Guess.guess_count)\
         .all()
 
-    high_score = min(query)
+    high_score = list(query)
+
+    for item in high_score:
+        high_scores.append(item.guess_count)
+
+    high_scores.sort()
 
     session.close()
 
-    return high_score
+    return high_scores[:5]
 
 
 def find_or_create_player(name: str) -> Player:
@@ -78,3 +85,7 @@ def record_guess(player, guess_number: int, game_id: str,
 
     session.commit()
     session.close()
+
+
+if __name__ == "__main__":
+    print(get_player_high_score(1))
