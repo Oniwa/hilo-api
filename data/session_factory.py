@@ -4,7 +4,7 @@ import db.db_folder as db_folder
 from models.model_base import ModelBase
 # TODO: add all models to be imported here
 # noinspection PyUnresolvedReferences
-from models import move, player
+from models import guess, player
 
 __factory = None
 
