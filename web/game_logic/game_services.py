@@ -1,6 +1,6 @@
 from typing import List
 
-from data import session_factory
+from game_logic import session_factory
 from game_logic.models.guess import Guess
 from game_logic.models.player import Player
 
@@ -43,13 +43,21 @@ def get_player_high_score(player: Player.id) -> List:
     return high_scores[:5]
 
 
-def find_or_create_player(name: str) -> Player:
+def find_player(name: str) -> Player:
+    session = session_factory.create_session()
+
+    player = session.query(Player).filer(Player.name == name).first()
+    session.close()
+
+    return Player
+
+
+def create_player(name: str) -> Player:
     session = session_factory.create_session()
 
     player = session.query(Player).filter(Player.name == name).first()
     if player:
-        session.close()
-        return player
+        raise Exception("Player already exists")
 
     player = Player()
     player.name = name
@@ -57,6 +65,8 @@ def find_or_create_player(name: str) -> Player:
     session.commit()
 
     player = session.query(Player).filter(Player.name == name).first()
+    session.close()
+
     return player
 
 
