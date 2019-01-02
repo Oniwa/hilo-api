@@ -14,3 +14,10 @@ class Player(ModelBase):
     created = sqlalchemy.Column(sqlalchemy.DateTime,
                                 default=datetime.datetime.now)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'created': self.created,
+            'name': self.name
+        }

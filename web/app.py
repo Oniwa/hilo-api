@@ -2,6 +2,8 @@ import uuid
 
 import flask
 
+from game_logic import game_services
+
 app = flask.Flask(__name__)
 
 
@@ -28,13 +30,15 @@ def api_test():
 
 @app.errorhandler(404)
 def not_found(_):
-    return "The page was not found."
+    return flask.Response("The page was not found.", status=404)
 
 
 @app.route('/api/game/users/<user>', methods=['GET'])
 def find_user(user: str):
-    # TODO: Implement
-    return f"Would find user {user}."
+    player = game_services.find_player(user)
+    if not player:
+        flask.abort(404)
+    return flask.jsonify(player.to_json())
 
 
 @app.route('/api/game/users/', methods=['PUT'])

@@ -46,10 +46,10 @@ def get_player_high_score(player: Player.id) -> List:
 def find_player(name: str) -> Player:
     session = session_factory.create_session()
 
-    player = session.query(Player).filer(Player.name == name).first()
+    player = session.query(Player).filter(Player.name == name).first()
     session.close()
 
-    return Player
+    return player
 
 
 def create_player(name: str) -> Player:
@@ -99,3 +99,6 @@ def record_guess(player, guess_number: int, game_id: str,
 
 if __name__ == "__main__":
     print(get_player_high_score(1))
+    foo = find_player('John')
+
+    print(foo.name)
