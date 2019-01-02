@@ -12,6 +12,15 @@ def index():
     return "Hello world!!!"
 
 
+@app.route('/api/test', methods=['GET'])
+def api_test():
+    data ={
+        'name': 'Micheal',
+        'day': 97
+    }
+    return flask.jsonify(data)
+
+
 @app.errorhandler(404)
 def not_found(_):
     return "The page was not found."
