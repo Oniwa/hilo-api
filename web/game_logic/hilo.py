@@ -1,7 +1,8 @@
 import random
 import uuid
 
-import game_services as gs
+from game_logic import game_services as gs
+
 print('---------------------------------')
 print('   GUESS THAT NUMBER GAME')
 print('---------------------------------')

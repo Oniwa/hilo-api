@@ -1,8 +1,8 @@
 from typing import List
 
 from data import session_factory
-from models.guess import Guess
-from models.player import Player
+from game_logic.models.guess import Guess
+from game_logic.models.player import Player
 
 
 def get_game_history(game_id: str) -> List[Guess]:

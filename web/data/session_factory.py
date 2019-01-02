@@ -1,9 +1,9 @@
 import sqlalchemy
 import sqlalchemy.orm
 import db.db_folder as db_folder
-from models.model_base import ModelBase
+from game_logic.models.model_base import ModelBase
 # noinspection PyUnresolvedReferences
-from models import guess, player
+from game_logic.models import guess
 
 __factory = None
 

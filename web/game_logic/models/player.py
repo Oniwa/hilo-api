@@ -3,7 +3,7 @@ import datetime
 import sqlalchemy
 
 # noinspection PyPackageRequirements
-from models.model_base import ModelBase
+from game_logic.models.model_base import ModelBase
 
 
 class Player(ModelBase):
