@@ -1,3 +1,5 @@
+import uuid
+
 import flask
 
 app = flask.Flask(__name__)
@@ -43,8 +45,7 @@ def create_user(user: str):
 
 @app.route('/api/game/game', methods=['POST'])
 def create_game():
-    # TODO: Implement
-    return "Would create game"
+    return flask.jsonify({'game_id': str(uuid.uuid4())})
 
 
 @app.route('/api/game/<game_id>/status', methods=['GET'])
