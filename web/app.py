@@ -14,6 +14,7 @@ def main():
 def run_web_app():
     app.run(debug=True)
 
+
 @app.route('/')
 def index():
     return "Hello world!!!"
@@ -41,10 +42,10 @@ def find_user(user: str):
     return flask.jsonify(player.to_json())
 
 
-@app.route('/api/game/users/', methods=['PUT'])
-def create_user(user: str):
+@app.route('/api/game/users', methods=['PUT'])
+def create_user():
     # TODO: Implement
-    return f"Would crete user {user}."
+    return f"Would create user."
 
 
 @app.route('/api/game/game', methods=['POST'])
