@@ -44,8 +44,22 @@ def find_user(user: str):
 
 @app.route('/api/game/users', methods=['PUT'])
 def create_user():
-    # TODO: Implement
-    return f"Would create user."
+    try:
+        if not flask.request.json \
+                or 'user' not in flask.request.json \
+                or not flask.request.json.get('user'):
+            raise Exception("Invalid request: no value for user.")
+
+        username = flask.request.json.get('user').strip()
+        player = game_services.create_player(username)
+
+        return flask.jsonify(player.to_json())
+
+    except Exception as x:
+        flask.abort(flask.Response(
+            response=f"Invalid request: {x}",
+            status=400
+        ))
 
 
 @app.route('/api/game/game', methods=['POST'])
