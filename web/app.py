@@ -75,8 +75,14 @@ def game_status(game_id: str):
 
 @app.route('/api/game/users/<user>/top_scores', methods=['GET'])
 def player_top_scores(user):
-    # TODO: Implement
-    return f'Would return top five scores for {user}'
+    player = game_services.find_player(user)
+    top_player_scores = game_services.get_player_high_score(player.id)
+
+    data = {
+        'name': player.name,
+        'top scores': top_player_scores
+    }
+    return flask.jsonify(data)
 
 
 @app.route('/api/game/top_scores', methods=['GET'])
