@@ -28,6 +28,7 @@ class Guess(ModelBase):
             'created': self.created,
             'game_id': self.game_id,
             'guess': self.guess,
+            'guess_count': self.guess_count,
             'player_id': self.player_id,
             'is_hi': self.is_hi,
             'is_correct_guess': self.is_correct_guess,

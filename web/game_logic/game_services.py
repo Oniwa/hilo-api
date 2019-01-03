@@ -109,7 +109,7 @@ def all_players() -> List[Player]:
     return players
 
 
-def record_guess(player, guess_number: int, game_id: str,
+def record_guess(player: Player, guess_number: int, game_id: str,
                  is_correct_guess: bool, is_hi: bool, guess_count: int,
                  the_number: int):
     session = session_factory.create_session()

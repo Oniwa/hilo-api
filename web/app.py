@@ -1,8 +1,10 @@
+import random
 import uuid
 
 import flask
 
 from game_logic import game_services
+from game_logic.game import GameRound
 
 app = flask.Flask(__name__)
 
@@ -77,7 +79,7 @@ def game_status(game_id: str):
 
     player = history[0].player_id
     the_number = history[0].the_number
-    guess_count = max([h.guess_count for h in history])
+    guess_count = len(history)
 
     data = {
         'is_over': is_over,
@@ -115,10 +117,60 @@ def top_scores():
     return flask.jsonify(wins[:10])
 
 
+def validate_round_request():
+    if not flask.request.json:
+        raise Exception("Invalid request: no JSON body.")
+    game_id = flask.request.json.get('game_id')
+    if not game_id:
+        raise Exception("Invalid request: No game_id value")
+    user = flask.request.json.get('user')
+    if not user:
+        raise Exception("Invalid request: No user value")
+    db_user = game_services.find_player(user)
+    if not db_user:
+        raise Exception("Invalid request: No user with name {}".format(user))
+    guess = flask.request.json.get('guess')
+    if not guess:
+        raise Exception("Invalid request: No guess value")
+
+    is_over = game_services.is_game_over(game_id)
+    if is_over:
+        raise Exception("This game is already over.")
+
+    return db_user, game_id, guess
+
+
+def get_the_number():
+    history = game_services.get_game_history(flask.request.json.get('game_id'))
+
+    if history:
+        the_number = history[0].the_number
+    else:
+        the_number = random.randint(0, 100)
+
+    return the_number
+
+
 @app.route('/api/game/play_round', methods=['POST'])
 def play_round():
-    # TODO: Implement
-    return 'Would play a round'
+    try:
+        db_user, game_id, guess = validate_round_request()
+        the_number = get_the_number()
+
+        game = GameRound(game_id, db_user, guess, the_number)
+        game.play()
+
+        return flask.jsonify({
+            'guess': guess,
+            'player': db_user.to_json(),
+            'is_correct_guess': game.is_correct_guess,
+            'round_number': game.guess_count,
+            'is_hi': game.is_hi,
+            'the_number': game.the_number,
+        })
+    except Exception as x:
+        flask.abort(flask.Response(response=f'Invalid request: {x}',
+                                   status=400))
 
 
 if __name__ == "__main__":
