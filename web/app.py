@@ -69,8 +69,25 @@ def create_game():
 
 @app.route('/api/game/<game_id>/status', methods=['GET'])
 def game_status(game_id: str):
-    # TODO: Implement
-    return f"Would return status for game {game_id}"
+    is_over = game_services.is_game_over(game_id)
+    history = game_services.get_game_history(game_id)
+
+    if not history:
+        flask.abort(404)
+
+    player = history[0].player_id
+    the_number = history[0].the_number
+    guess_count = max([h.guess_count for h in history])
+
+    data = {
+        'is_over': is_over,
+        'player': player,
+        'guesses': [h.guess for h in history],
+        'guess_count': guess_count,
+        'the_number': the_number,
+    }
+
+    return flask.jsonify(data)
 
 
 @app.route('/api/game/users/<user>/top_scores', methods=['GET'])

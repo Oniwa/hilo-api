@@ -106,4 +106,10 @@ if __name__ == "__main__":
     print(get_player_high_score(1))
     foo = find_player('John')
 
-    print(is_game_over('95d8dca6-d70f-404f-8768-7a5c297cceda'))
+    bar = get_game_history('95d8dca6-d70f-404f-8768-7a5c297cceda')
+
+    for item in bar:
+        print(item.player_id)
+        print(item.guess_count)
+
+    print([x.guess for x in bar])
