@@ -20,6 +20,11 @@ def get_game_history(game_id: str) -> List[Guess]:
     return guesses
 
 
+def is_game_over(game_id: str) -> bool:
+    history = get_game_history(game_id)
+    return any([h.is_correct_guess for h in history])
+
+
 def get_player_high_score(player: Player.id) -> List:
     session = session_factory.create_session()
 
@@ -101,4 +106,4 @@ if __name__ == "__main__":
     print(get_player_high_score(1))
     foo = find_player('John')
 
-    print(foo.name)
+    print(is_game_over('95d8dca6-d70f-404f-8768-7a5c297cceda'))
