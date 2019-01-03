@@ -93,7 +93,7 @@ def game_status(game_id: str):
 @app.route('/api/game/users/<user>/top_scores', methods=['GET'])
 def player_top_scores(user):
     player = game_services.find_player(user)
-    top_player_scores = game_services.get_player_high_score(player.id)
+    top_player_scores = game_services.get_player_five_high_scores(player.id)
 
     data = {
         'name': player.name,
@@ -104,8 +104,15 @@ def player_top_scores(user):
 
 @app.route('/api/game/top_scores', methods=['GET'])
 def top_scores():
-    # TODO: Implement
-    return "Would return top scorers"
+    players = game_services.all_players()
+    wins = [
+        {'player': p.to_json(),
+         'score': game_services.get_player_highest_score(p.id)}
+        for p in players
+    ]
+
+    wins.sort(key=lambda wn: -wn.get('score'))
+    return flask.jsonify(wins[:10])
 
 
 @app.route('/api/game/play_round', methods=['POST'])

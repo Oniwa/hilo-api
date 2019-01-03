@@ -13,7 +13,7 @@ guess = -1
 
 name = input('Player what is your name? ')
 player = gs.find_or_create_player(name)
-high_scores = gs.get_player_high_score(player.id)
+high_scores = gs.get_player_five_high_scores(player.id)
 high_scores = ', '.join(str(x) for x in high_scores)
 print(f'{player.name}\'s best scores are {high_scores}')
 

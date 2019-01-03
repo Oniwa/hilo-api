@@ -25,7 +25,33 @@ def is_game_over(game_id: str) -> bool:
     return any([h.is_correct_guess for h in history])
 
 
-def get_player_high_score(player: Player.id) -> List:
+def get_player_highest_score(player: Player.id) -> List:
+    session = session_factory.create_session()
+
+    high_scores = []
+
+    query = session.query(Guess)\
+        .filter(Guess.player_id == player)\
+        .filter(Guess.is_correct_guess)\
+        .order_by(Guess.guess_count)\
+        .all()
+
+    high_score = list(query)
+
+    for item in high_score:
+        high_scores.append(item.guess_count)
+
+    high_scores.sort()
+
+    session.close()
+
+    if not high_scores:
+        high_scores.append(101)
+
+    return high_scores[0]
+
+
+def get_player_five_high_scores(player: Player.id) -> List:
     session = session_factory.create_session()
 
     high_scores = []
@@ -103,13 +129,9 @@ def record_guess(player, guess_number: int, game_id: str,
 
 
 if __name__ == "__main__":
-    print(get_player_high_score(1))
+    print(get_player_five_high_scores(1))
     foo = find_player('John')
 
     bar = get_game_history('95d8dca6-d70f-404f-8768-7a5c297cceda')
-
-    for item in bar:
-        print(item.player_id)
-        print(item.guess_count)
 
     print([x.guess for x in bar])
