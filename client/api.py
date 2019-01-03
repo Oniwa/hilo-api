@@ -22,7 +22,7 @@ class GameService(uplink.Consumer):
     def game_status(self, game_id):
         pass
 
-    @uplink.get('api/users/{user}/top_scores')
+    @uplink.get('api/game/users/{user}/top_scores')
     def player_top_scores(self, user):
         pass
 
