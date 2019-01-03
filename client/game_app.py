@@ -17,6 +17,7 @@ def main():
     player_name = input('What is your name? ')
 
     player = svc.find_user(player_name)
+    print(player)
     if not player:
         svc.create_user(user=player_name)
         player = svc.find_user(player_name)

@@ -1,6 +1,7 @@
 import uplink
 
 
+@uplink.json
 class GameService(uplink.Consumer):
     def __init__(self):
         super().__init__(base_url='http://localhost:5000')
